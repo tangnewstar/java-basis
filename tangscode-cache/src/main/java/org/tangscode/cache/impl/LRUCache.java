@@ -125,6 +125,7 @@ public class LRUCache<K, V> implements ICache<K, V>, ICacheHandler<K> {
 
     @Override
     public void clearAllExpiredCaches() {
+        System.out.println(LRUCache.class.getName() + " is clearing cache ...");
         Set<K> expiredKeys = cache.entrySet().stream()
                 .filter(entry -> entry.getValue().isExpired())
                 .map(Map.Entry::getKey)

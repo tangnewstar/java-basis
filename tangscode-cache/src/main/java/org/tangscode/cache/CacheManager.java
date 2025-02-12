@@ -32,6 +32,9 @@ public class CacheManager implements ICacheManager {
     public void createCache(String cacheName, CacheType cacheType) {
         ICache cache = CacheFactory.createCache(cacheType);
         caches.put(cacheName, cache);
+        if (cache instanceof ICacheHandler) {
+            addHandler((ICacheHandler) cache);
+        }
     }
 
     @Override
@@ -52,6 +55,10 @@ public class CacheManager implements ICacheManager {
     }
 
     private List<ICacheHandler> handlers = new ArrayList<>();
+    public void addHandler(ICacheHandler handler) {
+        handlers.add(handler);
+    }
+
     private void timelyCleanExpiredItems() {
         new Timer().schedule(new TimerTask() {
             @Override
@@ -59,6 +66,6 @@ public class CacheManager implements ICacheManager {
                 System.out.println("start clean expired data timely");
                 handlers.forEach(ICacheHandler::clearAllExpiredCaches);
             }
-        }, 60000L, 1000L * 60 * 60 * 24);
+        }, 3000L, 1000L * 2);
     }
 }
