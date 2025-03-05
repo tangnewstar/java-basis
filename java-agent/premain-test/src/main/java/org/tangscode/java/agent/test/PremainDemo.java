@@ -18,8 +18,17 @@ public class PremainDemo {
         }
     }
 
+    public void execute2() {
+        try {
+            Thread.sleep(2000); // 模拟业务逻辑
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         new PremainDemo().execute();
+        new PremainDemo().execute2();
     }
 }
 

@@ -14,16 +14,26 @@ import java.lang.instrument.Instrumentation;
 
 public class MethodTraceAgent {
     public static void premain(String args, Instrumentation inst) {
-        if (null == args || args.isEmpty()) {
-            throw new IllegalArgumentException("please specify package to be traced");
+        String tracePackageName = null == args || args.isEmpty() ? resolveMainPackage() : args;
+        if (tracePackageName.isEmpty()) {
+            throw new IllegalArgumentException("package not found or you have to specify");
         }
+        System.out.println("Monitor Package: [" + tracePackageName + "]");
         new AgentBuilder.Default()
-                .type(ElementMatchers.nameStartsWith(args)) // 监控指定包
+                .type(ElementMatchers.nameStartsWith(tracePackageName)) // 监控指定包
                 //DynamicType.Builder<?> var1, TypeDescription var2, @MaybeNull ClassLoader var3, @MaybeNull JavaModule var4, ProtectionDomain var5
                 .transform((builder, type, classLoader, module, domain) ->
                         builder.visit(Advice.to(MethodAdvice.class)
                                 .on(ElementMatchers.isMethod())))
                 .installOn(inst);
     }
+
+    private static String resolveMainPackage() {
+        String command = System.getProperty("sun.java.command", "");
+        String mainClassName = command.split(" ")[0];
+        return mainClassName.substring(0, mainClassName.lastIndexOf("."));
+    }
+
+
 }
 
