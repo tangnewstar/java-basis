@@ -29,6 +29,18 @@
             <artifactId>asm-commons</artifactId>
             <version>9.6</version>
         </dependency>
+
+        <!-- bytebuddy -->
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.14.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>1.14.5</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -44,7 +56,8 @@
                     </descriptorRefs>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>org.tangscode.java.agent.TimeAgent</Premain-Class>
+<!--                            <Premain-Class>org.tangscode.java.agent.TimeAgent</Premain-Class>-->
+                            <Premain-Class>org.tangscode.java.agent.MethodTraceAgent</Premain-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>
