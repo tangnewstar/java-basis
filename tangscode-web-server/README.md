@@ -50,7 +50,7 @@ graph LR
 ### Tomcat
 ```mermaid
 graph LR
-A[新请求到达] --> B{当前忙碌线程 < maxThreads?}
+A[新请求到达] --> B{当前忙碌线程 < maxThreads? 默认200}
 B -->|是| C[立即分配线程处理]
 B -->|否| D[进入操作系统等待队列]
 D --> E{队列长度 < acceptCount?}
@@ -58,7 +58,7 @@ E -->|是| F[暂存等待]
 E -->|否| G[拒绝连接]
 ```
 
-#### TCP等待队列（acceptCount）
+#### TCP等待队列（操作系统）
 ```mermaid
 graph LR
     A[监听端口] --> B{单个进程}
