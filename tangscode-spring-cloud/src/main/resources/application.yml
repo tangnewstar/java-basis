@@ -1,0 +1,14 @@
+
+# 端口号
+server:
+  port: 9000
+
+# 应用名称
+spring:
+  application:
+    name: HelloService
+
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8080
